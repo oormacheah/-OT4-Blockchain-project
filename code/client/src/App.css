@@ -1,3 +1,15 @@
+h1 {
+  text-align: center;
+}
+
+.center_btn {
+  justify-content: center;
+}
+
+.search_logo {
+  font-size: 10em;
+}
+
 .App {
   text-align: center;
 }
