@@ -1,10 +1,14 @@
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 
 function PaperTable(props) {
   const papers = props.papers;
-  const paperElements = papers.map(paper => {
-    return <PaperRow id={paper.id} title={paper.title} author={paper.author} keywords={paper.keywords} file={paper.file}/>
-  });
+  let paperElements;
+  if (papers[0] !== undefined) {
+    paperElements = papers.map(paper => {
+      return <PaperRow id={paper.id} title={paper.title} author={paper.author} 
+      keywords={paper.keywords} file={paper.file} owner={paper.owner} value={paper.value}/>;
+    });
+  }
 
   return (
     <Table striped bordered hover>
@@ -13,7 +17,9 @@ function PaperTable(props) {
           <th>Title</th>
           <th>Author(s)</th>
           <th>Keywords</th>
-          <th>File</th>
+          <th>Owner</th>
+          <th>Value</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -30,7 +36,9 @@ function PaperRow(props) {
       <td key={props.title}>{props.title}</td>
       <td key={props.author}>{props.author}</td>
       <td key={keywordStr}>{keywordStr}</td>
-      <td key={props.file}>{props.file}</td>
+      <td key={props.owner}>{props.owner}</td>
+      <td key={props.value}>{props.value}</td>
+      <td key={props.file}><Button variant="primary">View</Button>&nbsp;&nbsp;<Button variant="dark">Buy</Button></td>
     </tr>
   );
 }

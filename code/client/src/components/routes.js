@@ -3,7 +3,7 @@ import { GrSearchAdvanced } from 'react-icons/gr';
 import { Container, Row, Col, Alert, Table, Button, Dropdown } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PaperTable } from './paperTable';
-import { SearchForm } from './paperForm';
+import { SearchForm, NewPaperForm } from './paperForm';
 
 function HomeRoute(props) {
     const navigate = useNavigate()
@@ -19,18 +19,28 @@ function HomeRoute(props) {
                 <GrSearchAdvanced className="search_logo" />
             </Row>
             <br />
+            <Row>
+                <h5>Your address: {props.user}</h5>
+            </Row>
             <br />
             <Row>
                 <div className="d-flex justify-content-center">
                     <br />
-                    <Button>Upload&nbsp;&nbsp;<i className={'bi bi-upload'} /></Button>
+                    <Button variant="success" onClick={() => navigate('/upload')}>
+                        Upload&nbsp;&nbsp;<i className={'bi bi-upload'}/>
+                    </Button>
                     &nbsp;&nbsp;
                     <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            Search&nbsp;&nbsp;<i class="bi bi-search"/>
+                        <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                            Search&nbsp;&nbsp;<i className="bi bi-search"/>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item>Search by title</Dropdown.Item>
+                            <Dropdown.Item onClick={() => navigate('/search/title')}>
+                                Search by title
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => navigate('/search/author')}>
+                                Search by author
+                            </Dropdown.Item>
                             <Dropdown.Item onClick={() => navigate('/search/keywords')}>
                                 Search by keywords
                             </Dropdown.Item>
@@ -42,24 +52,41 @@ function HomeRoute(props) {
     );
 }
 
-function SearchRoute(props) {
-    const { criterion } = useParams();
-    const navigate = useNavigate();
+function NewPaperRoute(props) {
     return (
         <>
             <br />
             <Row>
                 <Col>
                     <h1>
-                        Search by {props.criterion}&nbsp;&nbsp;<i class="bi bi-search"/>&nbsp;&nbsp;
-                        <Button variant="outline-danger"
-                        onClick={() => navigate('/')}>Go back</Button>
+                        Upload new paper
                     </h1>
                 </Col>
             </Row>
             
             <Row>
-                <SearchForm criterion={criterion}/>
+                <NewPaperForm/>
+            </Row>
+
+        </>
+    );
+}
+
+function SearchRoute(props) {
+    const { criterion } = useParams();
+    return (
+        <>
+            <br />
+            <Row>
+                <Col>
+                    <h1>
+                        Search by {criterion}&nbsp;<i className="bi bi-search"/>&nbsp;&nbsp;
+                    </h1>
+                </Col>
+            </Row>
+            
+            <Row>
+                <SearchForm criterion={criterion} setCriterion={props.setCriterion} setInput={props.setInput}/>
             </Row>
 
         </>
@@ -67,26 +94,19 @@ function SearchRoute(props) {
 }
 
 function SearchResultsRoute(props) {
-
-    const criterion = props.criterion;
-    const input = props.input;
-
-    switch (criterion) {
-        case 'Keywords':
-            break;
-        case 'Title':
-            break;
-        default:
-            break;
-    }
-    
-
+    const navigate = useNavigate();
     return (
-        <Row>
-            <PaperTable papers={props.papers}/>
-        </Row>
+        <>
+            <Row>
+                <h1>Results&nbsp;&nbsp;<Button variant="danger" onClick={() => navigate('/')}>Go back</Button></h1>
+            </Row>
+            <Row>
+                <PaperTable papers={props.papers}/>
+            </Row>
+        </>
+       
     );
 }
 
 
-export { HomeRoute, SearchRoute, SearchResultsRoute };
+export { HomeRoute, NewPaperRoute, SearchRoute, SearchResultsRoute };

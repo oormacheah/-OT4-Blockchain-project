@@ -1,34 +1,32 @@
 import { Row, Col, Container, Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function SearchForm(props) {
-
     const navigate = useNavigate();
     const [input, setInput] = useState('');
+    const criterion = props.criterion;
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const newInput = {
-            id: 0, // purpose is having a unique id while updating locally (before fetching db) and not
-            // have a warning of non-uniqueness of the key
-            input: input,
-        };
-        // props.setInput(newInput);
+
+        props.setCriterion(criterion);
+        props.setInput(input);
         navigate('/search/results');
     }
 
     return (
         <Form onSubmit={handleSubmit}>
             <Container>
+                <br/>
                 <Row>
                     <Form.Group>
-                        <Form.Label>Search by {props.criterion}</Form.Label>
                         <Form.Control type='text' required value={input}
                             onChange={(event) => setInput(event.target.value)} />
                     </Form.Group>
                 </Row>
-                <Button variant="success" type="submit">Search&nbsp;<i className={'bi bi-upload'} /></Button>
+                <br/>
+                <Button variant="primary" type="submit">Search</Button>
                 &nbsp;&nbsp;
                 <Button variant="danger" onClick={() => navigate('/')}>Cancel</Button>
             </Container>
@@ -36,7 +34,7 @@ function SearchForm(props) {
     );
 }
 
-function PaperForm(props) {
+function NewPaperForm(props) {
 
     const navigate = useNavigate();
 
@@ -47,15 +45,16 @@ function PaperForm(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const keywordsArray = keywords.toLowerCase().split(", ");
         const newPaper = {
             id: 0, // purpose is having a unique id while updating locally (before fetching db) and not
             // have a warning of non-uniqueness of the key
             title: title,
             author: author,
-            keywords: keywords,
+            keywords: keywordsArray,
             file: file,
         };
-        // props.addPaper(newPaper);
+        props.addPaper(newPaper);
         navigate('/');
     }
 
@@ -64,36 +63,25 @@ function PaperForm(props) {
             <Container>
                 <Row>
                     <Form.Group>
-                        <Form.Label>Question</Form.Label>
-                        <Form.Control type='text' required value={question}
-                            onChange={(event) => setQuestion(event.target.value)} />
+                        <Form.Label>Title</Form.Label>
+                        <Form.Control type='text' required value={title}
+                            onChange={(event) => setTitle(event.target.value)} />
                     </Form.Group>
                 </Row>
                 <br />
                 <Row>
                     <Col>
                         <Form.Group>
-                            <Form.Label>Difficulty</Form.Label>
-                            <Form.Select value={difficulty}
-                                onChange={(event) => setDifficulty(event.target.value)}>
-                                <option>Easy</option>
-                                <option>Average</option>
-                                <option>Difficult</option>
-                            </Form.Select>
+                            <Form.Label>Author</Form.Label>
+                            <Form.Control type='text' required value={author}
+                                onChange={(event) => setAuthor(event.target.value)}/>
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group>
-                            <Form.Label>Duration</Form.Label>
-                            <Form.Control type='number' value={duration} required min={60} max={600}
-                                onChange={(event) => setDuration(event.target.value)} />
-                        </Form.Group>
-                    </Col>
-                    <Col>
-                        <Form.Group>
-                            <Form.Label>Answer</Form.Label>
-                            <Form.Control type='text' value={answer} required
-                                onChange={(event) => setAnswer(event.target.value)} />
+                            <Form.Label>File</Form.Label>
+                            <Form.Control type='text' value={file} required
+                                onChange={(event) => setFile(event.target.value)} />
                         </Form.Group>
                     </Col>
                 </Row>
@@ -101,27 +89,22 @@ function PaperForm(props) {
                 <Row>
                     <Col>
                         <Form.Group>
-                            <Form.Label>Hint 1</Form.Label>
-                            <Form.Control type='text' required value={hint1}
-                                onChange={(event) => setHint1(event.target.value)} />
+                            <Form.Label>Keywords (format: xxx, yyy...)</Form.Label>
+                            <Form.Control type='text' value={keywords} required
+                                onChange={(event) => setKeywords(event.target.value)} />
                         </Form.Group>
                     </Col>
-                    <Col>
-                        <Form.Group>
-                            <Form.Label>Hint 2</Form.Label>
-                            <Form.Control type='text' required value={hint2}
-                                onChange={(event) => setHint2(event.target.value)} />
-                        </Form.Group>
-                    </Col>
+                   
                 </Row>
+                
                 <br />
-                <Button variant="success" type="submit">Add&nbsp;<i className={'bi bi-upload'} /></Button>
+                <Button variant="success" type="submit">Upload</Button>
                 &nbsp;&nbsp;
-                <Button variant="danger" onClick={() => navigate('/myriddles')}>Cancel</Button>
+                <Button variant="danger" onClick={() => navigate('/')}>Cancel</Button>
             </Container>
         </Form>
     );
 
 }
 
-export { SearchForm, PaperForm };
+export { SearchForm, NewPaperForm };
