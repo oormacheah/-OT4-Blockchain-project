@@ -5,8 +5,9 @@ function PaperTable(props) {
   let paperElements;
   if (papers[0] !== undefined) {
     paperElements = papers.map(paper => {
-      return <PaperRow id={paper.id} title={paper.title} author={paper.author} 
-      keywords={paper.keywords} file={paper.file} owner={paper.owner} value={paper.value}/>;
+      return <PaperRow key={paper.id} id={paper.id} title={paper.title} author={paper.author} 
+      keywords={paper.keywords} file={paper.file} owners={paper.owners} value={paper.value}
+      user={props.user}/>;
     });
   }
 
@@ -17,7 +18,6 @@ function PaperTable(props) {
           <th>Title</th>
           <th>Author(s)</th>
           <th>Keywords</th>
-          <th>Owner</th>
           <th>Value</th>
           <th>Actions</th>
         </tr>
@@ -30,15 +30,19 @@ function PaperTable(props) {
 }
 
 function PaperRow(props) {
-  const keywordStr = props.keywords.join(', ')
+  const keywordStr = props.keywords.join(', ');
+
   return (
     <tr key={props.id}>
       <td key={props.title}>{props.title}</td>
       <td key={props.author}>{props.author}</td>
       <td key={keywordStr}>{keywordStr}</td>
-      <td key={props.owner}>{props.owner}</td>
       <td key={props.value}>{props.value}</td>
-      <td key={props.file}><Button variant="primary">View</Button>&nbsp;&nbsp;<Button variant="dark">Buy</Button></td>
+      <td key={props.file}>
+        <Button variant="primary" onClick={() => window.open('https://google.com', '_blank', 'noreferrer')}>View</Button>
+        &nbsp;&nbsp;
+        <Button variant="dark" disabled={props.owners.includes(props.user)}>Buy</Button>
+      </td>
     </tr>
   );
 }

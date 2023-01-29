@@ -101,7 +101,7 @@ function SearchResultsRoute(props) {
                 <h1>Results&nbsp;&nbsp;<Button variant="danger" onClick={() => navigate('/')}>Go back</Button></h1>
             </Row>
             <Row>
-                <PaperTable papers={props.papers}/>
+                <PaperTable papers={props.papers} user={props.user}/>
             </Row>
         </>
        

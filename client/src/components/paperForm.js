@@ -42,6 +42,7 @@ function NewPaperForm(props) {
     const [author, setAuthor] = useState('');
     const [keywords, setKeywords] = useState('');
     const [file, setFile] = useState('');
+    const [value, setValue] = useState(0);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -53,6 +54,8 @@ function NewPaperForm(props) {
             author: author,
             keywords: keywordsArray,
             file: file,
+            owner: props.user,
+            value: value,
         };
         props.addPaper(newPaper);
         navigate('/');
@@ -63,8 +66,8 @@ function NewPaperForm(props) {
             <Container>
                 <Row>
                     <Form.Group>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control type='text' required value={title}
+                        <Form.Label>File (IPFS)</Form.Label>
+                        <Form.Control type='text' required value={file}
                             onChange={(event) => setTitle(event.target.value)} />
                     </Form.Group>
                 </Row>
@@ -72,16 +75,23 @@ function NewPaperForm(props) {
                 <Row>
                     <Col>
                         <Form.Group>
-                            <Form.Label>Author</Form.Label>
-                            <Form.Control type='text' required value={author}
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control type='text' required value={title}
                                 onChange={(event) => setAuthor(event.target.value)}/>
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group>
-                            <Form.Label>File</Form.Label>
-                            <Form.Control type='text' value={file} required
+                            <Form.Label>Author</Form.Label>
+                            <Form.Control type='text' value={author} required
                                 onChange={(event) => setFile(event.target.value)} />
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group>
+                            <Form.Label>Value</Form.Label>
+                            <Form.Control type='number' value={value} required min={0}
+                                onChange={(event) => setValue(event.target.value)} />
                         </Form.Group>
                     </Col>
                 </Row>
@@ -94,7 +104,6 @@ function NewPaperForm(props) {
                                 onChange={(event) => setKeywords(event.target.value)} />
                         </Form.Group>
                     </Col>
-                   
                 </Row>
                 
                 <br />
