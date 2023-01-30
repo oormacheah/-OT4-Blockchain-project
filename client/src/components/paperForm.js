@@ -41,7 +41,8 @@ function NewPaperForm(props) {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [keywords, setKeywords] = useState('');
-    const [file, setFile] = useState('');
+    const [fileName, setFileName] = useState('');
+    const [file, setFile] = useState();
     const [value, setValue] = useState(0);
 
     const handleSubmit = (event) => {
@@ -51,7 +52,7 @@ function NewPaperForm(props) {
             title: title,
             author: author,
             keywords: keywords,
-            // keywords: keywordsArray,
+            file: file,
             value: value,
         };
         props.uploadPaper(newPaper);
@@ -63,19 +64,20 @@ function NewPaperForm(props) {
             <Container>
                 <Row>
                     <Form.Group>
-                        <Form.Label>File (IPFS)</Form.Label>
-                        <Form.Control type='text' required value={file}
-                            onChange={(event) => setFile(event.target.value)} />
-                    </Form.Group>
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control type='text' required value={title}
+                                onChange={(event) => setTitle(event.target.value)}/>
+                    </Form.Group>   
                 </Row>
                 <br />
                 <Row>
                     <Col>
                         <Form.Group>
-                            <Form.Label>Title</Form.Label>
-                            <Form.Control type='text' required value={title}
-                                onChange={(event) => setTitle(event.target.value)}/>
+                            <Form.Label>File</Form.Label>
+                            <Form.Control type='file' accept=".txt" required value={fileName}
+                                onChange={(event) => {setFile(event.target.files); setFileName(event.target.value)}} />
                         </Form.Group>
+                        
                     </Col>
                     <Col>
                         <Form.Group>

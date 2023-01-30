@@ -2,6 +2,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 import { Table, Button } from 'react-bootstrap';
 
+const openText = (file) => {
+  let reader = new FileReader();
+  reader.readAsText(file);
+  reader.onload = () => {
+    let tab = window.open('about:blank', '_blank');
+    tab.document.write(reader.result);
+    tab.document.close();
+  };
+}
 
 function PaperTable(props) {
   const papers = props.papers;
@@ -45,7 +54,7 @@ function PaperRow(props) {
       <td key={props.value}>{props.value} ETH</td>
       <td key={owned} className={owned ? "greentext" : "redtext"}>{owned ? "Owned" : "Not owned"}</td>
       <td key={props.file}>
-        <Button variant="primary" onClick={() => window.open('https://google.com', '_blank', 'noreferrer')}>View</Button>
+        <Button variant="primary" onClick={() => openText(props.file)}>View</Button>
         &nbsp;&nbsp;
         <Button variant="dark" disabled={owned} onClick={() => props.buyPaper(props.id, props.value)}>Buy</Button>
       </td>

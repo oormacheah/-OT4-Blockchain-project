@@ -70,7 +70,7 @@ function App() {
     else {
       setMessage({msg: 'Couldn\'t buy paper!', type: 'danger'});
     }
-  }
+  };
 
   return (
     <Container className="App" fluid>

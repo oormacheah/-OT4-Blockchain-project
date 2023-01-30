@@ -66,6 +66,11 @@
 			return (s.id, s.title, s.author, s.keywords, s.ipfs_file, s.owners, s.value);
 		}
 
+		function getPaperCID_byId(uint256 id) public view returns (string memory){
+			paperInfo storage s = papers[id];
+			return s.ipfs_file;
+		}
+
 		function getPaper_byTitle(string memory title) public view returns (uint256, string memory, string memory, string memory, string memory, address[] memory, uint256){
 			uint paperId = paperIds.length;
 			for (uint i=0; i<paperIds.length; i++) {

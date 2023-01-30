@@ -1,0 +1,1 @@
+Numerical analysis of diferences between nuclear fusion simulation and physical reality. 
