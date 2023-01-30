@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../App.css';
 import { GrSearchAdvanced } from 'react-icons/gr';
-import { Container, Row, Col, Alert, Table, Button, Dropdown } from 'react-bootstrap';
+import { Row, Col, Alert, Button, Dropdown } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PaperTable } from './paperTable';
 import { SearchForm, NewPaperForm } from './paperForm';
@@ -10,6 +11,10 @@ function HomeRoute(props) {
     return (
         <>
             <br />
+            {props.msg && <Row>
+                <Alert variant={props.msg.type} onClose={() => props.setMsg('')}
+                    dismissible>{props.msg.msg}</Alert>
+            </Row>}
             <Row>
                 <h1>
                     ResearChain
@@ -20,7 +25,8 @@ function HomeRoute(props) {
             </Row>
             <br />
             <Row>
-                <h5>Your address: {props.user}</h5>
+                <h6>Your address:</h6>
+                <h5>{props.user}</h5>
             </Row>
             <br />
             <Row>
@@ -65,7 +71,7 @@ function NewPaperRoute(props) {
             </Row>
             
             <Row>
-                <NewPaperForm/>
+                <NewPaperForm uploadPaper={props.uploadPaper}/>
             </Row>
 
         </>
@@ -97,11 +103,15 @@ function SearchResultsRoute(props) {
     const navigate = useNavigate();
     return (
         <>
+            {props.msg && <Row>
+                <Alert variant={props.msg.type} onClose={() => props.setMsg('')}
+                    dismissible>{props.msg.msg}</Alert>
+            </Row>}
             <Row>
                 <h1>Results&nbsp;&nbsp;<Button variant="danger" onClick={() => navigate('/')}>Go back</Button></h1>
             </Row>
             <Row>
-                <PaperTable papers={props.papers} user={props.user}/>
+                <PaperTable papers={props.papers} user={props.user} buyPaper={props.buyPaper}/>
             </Row>
         </>
        

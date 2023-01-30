@@ -1,6 +1,6 @@
 import { Row, Col, Container, Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function SearchForm(props) {
     const navigate = useNavigate();
@@ -46,18 +46,15 @@ function NewPaperForm(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const keywordsArray = keywords.toLowerCase().split(", ");
+        // const keywordsArray = keywords.toLowerCase().split(", ");
         const newPaper = {
-            id: 0, // purpose is having a unique id while updating locally (before fetching db) and not
-            // have a warning of non-uniqueness of the key
             title: title,
             author: author,
-            keywords: keywordsArray,
-            file: file,
-            owner: props.user,
+            keywords: keywords,
+            // keywords: keywordsArray,
             value: value,
         };
-        props.addPaper(newPaper);
+        props.uploadPaper(newPaper);
         navigate('/');
     }
 
@@ -68,7 +65,7 @@ function NewPaperForm(props) {
                     <Form.Group>
                         <Form.Label>File (IPFS)</Form.Label>
                         <Form.Control type='text' required value={file}
-                            onChange={(event) => setTitle(event.target.value)} />
+                            onChange={(event) => setFile(event.target.value)} />
                     </Form.Group>
                 </Row>
                 <br />
@@ -77,19 +74,19 @@ function NewPaperForm(props) {
                         <Form.Group>
                             <Form.Label>Title</Form.Label>
                             <Form.Control type='text' required value={title}
-                                onChange={(event) => setAuthor(event.target.value)}/>
+                                onChange={(event) => setTitle(event.target.value)}/>
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group>
                             <Form.Label>Author</Form.Label>
                             <Form.Control type='text' value={author} required
-                                onChange={(event) => setFile(event.target.value)} />
+                                onChange={(event) => setAuthor(event.target.value)} />
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group>
-                            <Form.Label>Value</Form.Label>
+                            <Form.Label>Value (ETH)</Form.Label>
                             <Form.Control type='number' value={value} required min={0}
                                 onChange={(event) => setValue(event.target.value)} />
                         </Form.Group>

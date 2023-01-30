@@ -1,4 +1,7 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../App.css';
 import { Table, Button } from 'react-bootstrap';
+
 
 function PaperTable(props) {
   const papers = props.papers;
@@ -7,7 +10,7 @@ function PaperTable(props) {
     paperElements = papers.map(paper => {
       return <PaperRow key={paper.id} id={paper.id} title={paper.title} author={paper.author} 
       keywords={paper.keywords} file={paper.file} owners={paper.owners} value={paper.value}
-      user={props.user}/>;
+      user={props.user} buyPaper={props.buyPaper}/>;
     });
   }
 
@@ -19,6 +22,7 @@ function PaperTable(props) {
           <th>Author(s)</th>
           <th>Keywords</th>
           <th>Value</th>
+          <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -30,18 +34,20 @@ function PaperTable(props) {
 }
 
 function PaperRow(props) {
-  const keywordStr = props.keywords.join(', ');
+  // const keywordStr = props.keywords.join(', ');
+  const owned = props.owners.includes(props.user);
 
   return (
     <tr key={props.id}>
       <td key={props.title}>{props.title}</td>
       <td key={props.author}>{props.author}</td>
-      <td key={keywordStr}>{keywordStr}</td>
-      <td key={props.value}>{props.value}</td>
+      <td key={props.keywords}>{props.keywords}</td>
+      <td key={props.value}>{props.value} ETH</td>
+      <td key={owned} className={owned ? "greentext" : "redtext"}>{owned ? "Owned" : "Not owned"}</td>
       <td key={props.file}>
         <Button variant="primary" onClick={() => window.open('https://google.com', '_blank', 'noreferrer')}>View</Button>
         &nbsp;&nbsp;
-        <Button variant="dark" disabled={props.owners.includes(props.user)}>Buy</Button>
+        <Button variant="dark" disabled={owned} onClick={() => props.buyPaper(props.id, props.value)}>Buy</Button>
       </td>
     </tr>
   );

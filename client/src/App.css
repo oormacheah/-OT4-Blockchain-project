@@ -10,6 +10,14 @@ h1 {
   font-size: 10em;
 }
 
+.greentext {
+  color: green !important;
+}
+
+.redtext {
+  color: red !important;
+}
+
 .App {
   text-align: center;
 }
